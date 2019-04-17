@@ -18,7 +18,7 @@ class LinkedPickersInputField extends TextLineField
 
         if ($this->hasLinkedPickers()) {
             $this->field['linked_pickers'] = array_merge(
-                [
+                array(
                     'mainIcon1' => 'glyphicon glyphicon-calendar',
                     'mainIcon2' => 'glyphicon glyphicon-calendar',
                     'label1' => 'Von:',
@@ -28,7 +28,7 @@ class LinkedPickersInputField extends TextLineField
                     'placeholder1' => 'Startzeitpunkt',
                     'placeholder2' => 'Endzeitpunkt',
                     'locale' => DBWEBGEN_LANG,
-                ],
+                ),
                 $this->field['linked_pickers']
             );
         }
@@ -77,9 +77,8 @@ class LinkedPickersInputField extends TextLineField
                 </span>
               </div>
               
-              <div>
-                <input type="text" name="{{name}}" id="{{idPrefix}}-hidden">
-              </div>
+              <input type="hidden" name="{{name}}__null__" value="false">
+              <input type="text" name="{{name}}" id="{{idPrefix}}-hidden">
               
               <script type="text/javascript">
               $(function () {
@@ -120,14 +119,14 @@ class LinkedPickersInputField extends TextLineField
                 $html,
                 array_merge(
                     $this->getLinkedPickersOptions(),
-                    [
+                    array(
                         'idPrefix' => $this->get_control_id(),
                         'disabled' => $this->get_disabled_attr(),
                         'required' => $this->get_required_attr(),
                         'name' => $this->get_control_name(),
                         'value1' => $date[0],
                         'value2' => $date[1],
-                    ]
+                    )
                 )
             );
 
@@ -154,5 +153,18 @@ class LinkedPickersInputField extends TextLineField
         }
 
         return $html;
+    }
+
+    /**
+     * Don't set value to null
+     * @return bool
+     */
+    public function allow_setnull_box()
+    {
+        if ($this->hasLinkedPickers()) {
+            return false;
+        }
+
+        parent::allow_setnull_box();
     }
 }

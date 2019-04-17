@@ -11,5 +11,5 @@ drop table if exists activities cascade;
 create table activities (
 	id serial primary key ,
 	name varchar(100) not null,
-	duration varchar(100) not null
+	duration varchar(100)
 );
