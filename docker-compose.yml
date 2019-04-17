@@ -1,0 +1,30 @@
+version: "3"
+services:
+
+  apache:
+    image: codeblick/php:7.2-apache
+    volumes:
+      - ./src:/var/www/html
+    env_file:
+      - app.env
+    networks:
+      - db-net
+    ports:
+      - 80:80
+
+  database:
+    image: postgres
+    env_file:
+      - app.env
+    networks:
+      - db-net
+
+  adminer:
+    image: adminer
+    networks:
+      - db-net
+    ports:
+      - 8000:8080
+
+networks:
+  db-net:

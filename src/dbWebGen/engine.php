@@ -90,8 +90,8 @@
 ?>
 <!DOCTYPE html>
 <head>
-	<title><?= isset($APP) ? (isset($APP['page_title']) ? $APP['page_title'] : $APP['title']) : 'dbWebGen Setup Wizard' ?></title>
-	<link rel="icon" href="<?= isset($APP) ? page_icon() : '' ?>">
+	<title><?php echo isset($APP) ? (isset($APP['page_title']) ? $APP['page_title'] : $APP['title']) : 'dbWebGen Setup Wizard' ?></title>
+	<link rel="icon" href="<?php echo isset($APP) ? page_icon() : '' ?>">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php

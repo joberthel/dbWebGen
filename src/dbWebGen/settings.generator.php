@@ -50,7 +50,7 @@ FORM;
 
 	if(count($_POST) == 0) {
 		if($tables_setup_json)
-			echo json_encode(array('error' => 'Cannot connect to database.'));
+			echo json_encode(array('error' => 'Cannot connect to database 1.'));
 		else
 			print $form;
 		exit;
@@ -61,7 +61,7 @@ FORM;
 	}
 	catch(PDOException $e) {
 		if($tables_setup_json)
-			echo json_encode(array('error' => 'Cannot connect to database.'));
+			echo json_encode(array('error' => 'Cannot connect to database 2.' . $db_user));
 		else {
 			echo "<h2>ERROR: Cannot connect to database</h2>";
 			echo $form;

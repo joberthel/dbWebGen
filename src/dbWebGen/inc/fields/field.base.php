@@ -22,7 +22,7 @@
 				case T_ENUM: return new EnumField($table_name, $field_name, $field);
 				case T_LOOKUP: return new LookupField($table_name, $field_name, $field);
 				case T_UPLOAD: return new UploadField($table_name, $field_name, $field);
-				case T_TEXT_LINE: return new TextLineField($table_name, $field_name, $field);
+				case T_TEXT_LINE: return new LinkedPickersInputField($table_name, $field_name, $field);
 				case T_NUMBER: return new NumberField($table_name, $field_name, $field);
 				case T_TEXT_AREA: return new TextAreaField($table_name, $field_name, $field);
 				case T_PASSWORD: return new PasswordField($table_name, $field_name, $field);
@@ -138,7 +138,7 @@
 		//--------------------------------------------------------------------------------------
 		public function is_render_as_required() {
 		//--------------------------------------------------------------------------------------
-			return isset($this->render_settings['render_required']) 
+			return isset($this->render_settings['render_required'])
 				&& $this->render_settings['render_required'] === true;
 		}
 		//--------------------------------------------------------------------------------------

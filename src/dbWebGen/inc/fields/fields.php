@@ -17,4 +17,5 @@
 	require_once 'field.upload.php';
 	require_once 'field.postgisgeom.php';
 	require_once 'field.boolean.php';
+	require_once 'field.linked-pickers.php';
 ?>
