@@ -77,7 +77,6 @@ class LinkedPickersInputField extends TextLineField
                 </span>
               </div>
               
-              <input type="hidden" name="{{name}}__null__" value="false">
               <input type="hidden" name="{{name}}" id="{{idPrefix}}-hidden">
               
               <script type="text/javascript">
