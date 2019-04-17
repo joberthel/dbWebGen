@@ -27,6 +27,7 @@ class LinkedPickersInputField extends TextLineField
                     'format2' => 'YYYY-MM-DD',
                     'placeholder1' => 'Startzeitpunkt',
                     'placeholder2' => 'Endzeitpunkt',
+                    'template' => '[$1, $2)',
                     'locale' => DBWEBGEN_LANG,
                 ),
                 $this->field['linked_pickers']
@@ -85,6 +86,11 @@ class LinkedPickersInputField extends TextLineField
                 var $to = $("#{{idPrefix}}-to")
                 var $hidden = $("#{{idPrefix}}-hidden")
                 
+                function format () {
+                  var template = "{{template}}"
+                  $hidden.val(template.replace("$1", $from.data("date")).replace("$2", $to.data("date")))
+                }
+                
                 $from.datetimepicker({
                   defaultDate: "{{value1}}",
                   format: "{{format1}}",
@@ -99,15 +105,15 @@ class LinkedPickersInputField extends TextLineField
                 
                 $from.on("dp.change", function (e) {
                   $to.data("DateTimePicker").minDate(e.date)
-                  $hidden.val(JSON.stringify([$from.data("date"), $to.data("date")]))
+                  format()
                 })
                 
                 $to.on("dp.change", function (e) {
                   $from.data("DateTimePicker").maxDate(e.date)
-                  $hidden.val(JSON.stringify([$from.data("date"), $to.data("date")]))
+                  format()
                 })
                 
-                $hidden.val(JSON.stringify([$from.data("date"), $to.data("date")]))
+                format()
               })
               </script>
             ';
@@ -125,6 +131,7 @@ class LinkedPickersInputField extends TextLineField
                         'name' => $this->get_control_name(),
                         'value1' => $date[0],
                         'value2' => $date[1],
+                        'template' => str_replace('"', '\"', $this->getLinkedPickersOptions()['template']),
                     )
                 )
             );
@@ -136,7 +143,25 @@ class LinkedPickersInputField extends TextLineField
     }
 
     private function parseDate($value) {
-        return json_decode($value, true);
+        $template = $this->getLinkedPickersOptions()['template'];
+
+        preg_match_all('/\$[1-2]/', $template, $matches, PREG_OFFSET_CAPTURE);
+        $start = $matches[0][0][1];
+        $end = strlen($template) - $matches[0][1][1] - 2;
+
+        preg_match('/\$[1-2](.*)\$[1-2]/', $template, $matches);
+        $between = $matches[1];
+
+        $value = substr($value, $start);
+        $value = substr($value, 0, strlen($value) - $end);
+
+        $response = explode($between, $value);
+
+        if (strpos($template, '$2') < strpos($template, '$1')) {
+            array_reverse($response);
+        }
+
+        return $response;
     }
 
     /**
